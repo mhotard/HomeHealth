@@ -17,6 +17,8 @@ file_number <- length(years)
 #FIX: read in without headings and then create them
 #questions change over time so each year is created with different variable names
 #many questions stay the same
+
+setwd("~/Documents/Job Search/Data Incubator Application/HomeHealthCare/HHC Annual")
 for (i in 1:file_number){
   assign(paste("data",years[i],sep=""), read.csv(paste("Provider",years[i],".csv",sep=""),header=FALSE))
   print(paste("data",years[i],sep=""))
@@ -647,6 +649,9 @@ ggplot(data=to_graph, aes(x=Year, y=value)) + geom_line(aes(color=variable), siz
    scale_y_continuous("National average over all providers (%)") + labs(title = "Home Health Care - Quality Indicators") +
    scale_color_discrete(name="Quality Indicators", labels=c("Treat Pain", "Improve Walking", "Advise Medicine", "Admitted to Hospital"))
 
+ggsave("NationalTrend.png", plot = last_plot())
+
+
 #seeing if there is a noticable correlation between two indicators
 #too crowded
 data_hospital$Walking <- as.numeric(data_hospital$Walking)
@@ -666,5 +671,7 @@ to_graph2$Walking <- as.numeric(to_graph2$Walking)
 ggplot(data=to_graph2, aes(x=Year, y=Walking)) + geom_line(aes(color=ProviderNum), size=1.25) +
   scale_y_continuous("Annual % of Patients Who Got Better at Walking Around") + labs(title = "Home Health Care - Improvement in Walking") +
   scale_color_discrete(name="Provider IDs")
+
+ggsave("ProviderVariance.png", plot = last_plot())
 
 
